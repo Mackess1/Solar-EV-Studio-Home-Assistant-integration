@@ -1,0 +1,22 @@
+{
+  "title": "Solar EV Studio",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Solar EV Studio",
+        "description": "Create a solar EV charging controller with a full Studio settings panel. Starts paused. Open Solar EV Studio in the sidebar to select entities and edit all settings. Enabling solar mode hands control over from the earlier Solar EV automations."
+      }
+    },
+    "abort": {
+      "already_configured": "Solar EV Studio is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Solar EV Studio settings",
+        "description": "Open [Solar EV Studio](/solar-ev-studio) in the sidebar to edit every setting and entity mapping. Settings are saved directly in this integration. Saving pauses charging."
+      }
+    }
+  }
+}

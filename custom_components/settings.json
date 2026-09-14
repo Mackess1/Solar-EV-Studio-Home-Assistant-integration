@@ -1,0 +1,596 @@
+{
+  "defaults": {
+    "levels": "6,8,10,13,16,20,24,32",
+    "grid_sign": 1,
+    "battery_sign": 1,
+    "mode_state": "charge_now",
+    "day_state": "above_horizon",
+    "free_state": "charger_free",
+    "insert_state": "charger_insert",
+    "wait_state": "charger_wait",
+    "pause_state": "charger_pause",
+    "end_state": "charger_end",
+    "charging_state": "charger_charging",
+    "fault_state": "charger_fault",
+    "free_fault_state": "charger_free_fault",
+    "cap": 32,
+    "grid_limit": 500,
+    "battery_limit": 500,
+    "floor": 30,
+    "reserve": 0,
+    "margin": 300,
+    "factor": 20,
+    "factor_max": 40,
+    "pv_model_max": 15000,
+    "min_light": 1,
+    "start_light": 100,
+    "start_pv": 1500,
+    "probe_pv": 500,
+    "rise_fraction": 0.5,
+    "house_tolerance": 600,
+    "solar_tolerance": 300,
+    "reserve_tolerance": 200,
+    "reserve_release": 95,
+    "soc_hysteresis": 5,
+    "fast_probe": 300,
+    "slow_probe": 600,
+    "cooldown": 600,
+    "start_dwell": 120,
+    "settle": 150,
+    "feedback_max": 240,
+    "fresh_after": 30,
+    "probe_fresh": 150,
+    "ack_timeout": 30,
+    "switch_timeout": 15,
+    "actuator_delay": 5,
+    "poll": 15,
+    "urgent_dwell": 5,
+    "urgent_grid": 500,
+    "urgent_battery": 500,
+    "idle_power": 300,
+    "amp_tolerance": 1.5,
+    "voltage_min": 180,
+    "voltage_max": 270,
+    "ev_max": 15000,
+    "pv_max": 30000,
+    "load_max": 40000,
+    "pv_entity": "sensor.totals_pv_power",
+    "pv_unit": "W",
+    "pv_age": 90,
+    "grid_entity": "sensor.totals_grid_power",
+    "grid_unit": "W",
+    "grid_age": 90,
+    "battery_entity": "sensor.totals_battery_power",
+    "battery_unit": "W",
+    "battery_age": 90,
+    "load_entity": "sensor.totals_load_power",
+    "load_unit": "W",
+    "load_age": 90,
+    "voltage_entity": "sensor.totals_ac_output_voltage",
+    "voltage_unit": "V",
+    "voltage_age": 300,
+    "soc_entity": "sensor.totals_battery_state_of_charge",
+    "soc_unit": "%",
+    "soc_age": 7200,
+    "light_entity": "sensor.light_intensity",
+    "light_unit": "Klux",
+    "light_age": 600,
+    "ev_entity": "sensor.ev_charger_phase_a_power",
+    "ev_unit": "kW",
+    "ev_age": 0,
+    "amps_entity": "sensor.ev_charger_phase_a_current",
+    "amps_unit": "A",
+    "amps_age": 0,
+    "command_entity": "number.ev_charger_charging_current",
+    "command_unit": "A",
+    "command_age": 0,
+    "switch_entity": "switch.ev_charger_switch_2",
+    "work_entity": "sensor.ev_charger_work_state",
+    "mode_entity": "select.ev_charger_work_mode",
+    "sun_entity": "sun.sun"
+  },
+  "fields": [
+    [
+      "cap",
+      "Maximum current",
+      "Charging",
+      32,
+      6,
+      32,
+      1,
+      "A"
+    ],
+    [
+      "grid_limit",
+      "Grid import tolerance",
+      "Charging",
+      500,
+      0,
+      5000,
+      10,
+      "W"
+    ],
+    [
+      "battery_limit",
+      "Battery discharge tolerance",
+      "Charging",
+      500,
+      0,
+      5000,
+      10,
+      "W"
+    ],
+    [
+      "floor",
+      "Minimum home battery",
+      "Charging",
+      30,
+      0,
+      90,
+      1,
+      "%"
+    ],
+    [
+      "reserve",
+      "Battery charging reserve",
+      "Charging",
+      0,
+      0,
+      10000,
+      10,
+      "W"
+    ],
+    [
+      "margin",
+      "Solar headroom",
+      "Charging",
+      300,
+      0,
+      5000,
+      10,
+      "W"
+    ],
+    [
+      "factor",
+      "Light → solar factor",
+      "Solar model",
+      20,
+      0.01,
+      100000,
+      0.01,
+      "W / light unit"
+    ],
+    [
+      "factor_max",
+      "Learning factor ceiling",
+      "Solar model",
+      40,
+      0.01,
+      100000,
+      0.01,
+      "W / light unit"
+    ],
+    [
+      "pv_model_max",
+      "Estimated PV ceiling",
+      "Solar model",
+      15000,
+      100,
+      100000,
+      100,
+      "W"
+    ],
+    [
+      "min_light",
+      "Minimum daylight reading",
+      "Solar model",
+      1,
+      0,
+      100000,
+      0.1,
+      "light units"
+    ],
+    [
+      "start_light",
+      "Exploratory start light",
+      "Solar model",
+      100,
+      0,
+      100000,
+      1,
+      "light units"
+    ],
+    [
+      "start_pv",
+      "Exploratory start PV",
+      "Solar model",
+      1500,
+      0,
+      100000,
+      10,
+      "W"
+    ],
+    [
+      "probe_pv",
+      "Minimum PV for an upward test",
+      "Solar model",
+      500,
+      0,
+      100000,
+      10,
+      "W"
+    ],
+    [
+      "rise_fraction",
+      "Required share of current-step power",
+      "Solar model",
+      0.5,
+      0.1,
+      1,
+      0.05,
+      "fraction"
+    ],
+    [
+      "house_tolerance",
+      "House-load change tolerance",
+      "Solar model",
+      600,
+      0,
+      5000,
+      10,
+      "W"
+    ],
+    [
+      "solar_tolerance",
+      "Solar confirmation tolerance",
+      "Solar model",
+      300,
+      0,
+      5000,
+      10,
+      "W"
+    ],
+    [
+      "reserve_tolerance",
+      "Battery charging reserve tolerance",
+      "Solar model",
+      200,
+      0,
+      5000,
+      10,
+      "W"
+    ],
+    [
+      "reserve_release",
+      "Release charging reserve at",
+      "Solar model",
+      95,
+      0,
+      100,
+      1,
+      "%"
+    ],
+    [
+      "soc_hysteresis",
+      "Battery restart margin",
+      "Solar model",
+      5,
+      0,
+      20,
+      1,
+      "%"
+    ],
+    [
+      "fast_probe",
+      "Test interval when light predicts capacity",
+      "Timing",
+      300,
+      60,
+      7200,
+      1,
+      "s"
+    ],
+    [
+      "slow_probe",
+      "Test interval despite unchanged light",
+      "Timing",
+      600,
+      60,
+      7200,
+      1,
+      "s"
+    ],
+    [
+      "cooldown",
+      "Restart cooldown",
+      "Timing",
+      600,
+      30,
+      7200,
+      1,
+      "s"
+    ],
+    [
+      "start_dwell",
+      "Stable sunlight before start",
+      "Timing",
+      120,
+      15,
+      1800,
+      1,
+      "s"
+    ],
+    [
+      "settle",
+      "Wait for charger response",
+      "Timing",
+      150,
+      30,
+      900,
+      1,
+      "s"
+    ],
+    [
+      "feedback_max",
+      "Maximum charger feedback age",
+      "Timing",
+      240,
+      60,
+      1800,
+      1,
+      "s"
+    ],
+    [
+      "fresh_after",
+      "Ignore feedback this long after command",
+      "Timing",
+      30,
+      5,
+      300,
+      1,
+      "s"
+    ],
+    [
+      "probe_fresh",
+      "Maximum feedback age before testing",
+      "Timing",
+      150,
+      30,
+      900,
+      1,
+      "s"
+    ],
+    [
+      "ack_timeout",
+      "Current acknowledgement timeout",
+      "Timing",
+      30,
+      5,
+      120,
+      1,
+      "s"
+    ],
+    [
+      "switch_timeout",
+      "Switch acknowledgement timeout",
+      "Timing",
+      15,
+      5,
+      120,
+      1,
+      "s"
+    ],
+    [
+      "actuator_delay",
+      "Pause after setting current",
+      "Timing",
+      5,
+      1,
+      30,
+      1,
+      "s"
+    ],
+    [
+      "poll",
+      "Controller check interval",
+      "Timing",
+      15,
+      5,
+      30,
+      1,
+      "s"
+    ],
+    [
+      "urgent_dwell",
+      "Urgent draw trigger dwell",
+      "Timing",
+      5,
+      0,
+      30,
+      1,
+      "s"
+    ],
+    [
+      "urgent_grid",
+      "Urgent grid import trigger",
+      "Timing",
+      500,
+      0,
+      10000,
+      10,
+      "W"
+    ],
+    [
+      "urgent_battery",
+      "Urgent battery discharge trigger",
+      "Timing",
+      500,
+      0,
+      10000,
+      10,
+      "W"
+    ],
+    [
+      "idle_power",
+      "EV power below which charge is finished",
+      "Validation",
+      300,
+      0,
+      1000,
+      10,
+      "W"
+    ],
+    [
+      "amp_tolerance",
+      "Measured current tolerance",
+      "Validation",
+      1.5,
+      0.1,
+      5,
+      0.1,
+      "A"
+    ],
+    [
+      "voltage_min",
+      "Minimum supply voltage",
+      "Validation",
+      180,
+      80,
+      260,
+      1,
+      "V"
+    ],
+    [
+      "voltage_max",
+      "Maximum supply voltage",
+      "Validation",
+      270,
+      100,
+      300,
+      1,
+      "V"
+    ],
+    [
+      "ev_max",
+      "Maximum plausible EV power",
+      "Validation",
+      15000,
+      1000,
+      100000,
+      100,
+      "W"
+    ],
+    [
+      "pv_max",
+      "Maximum plausible PV power",
+      "Validation",
+      30000,
+      1000,
+      200000,
+      100,
+      "W"
+    ],
+    [
+      "load_max",
+      "Maximum plausible site load",
+      "Validation",
+      40000,
+      1000,
+      200000,
+      100,
+      "W"
+    ]
+  ],
+  "sources": {
+    "pv": [
+      "Solar production",
+      "sensor.totals_pv_power",
+      "sensor",
+      "W",
+      90
+    ],
+    "grid": [
+      "Grid power",
+      "sensor.totals_grid_power",
+      "sensor",
+      "W",
+      90
+    ],
+    "battery": [
+      "Battery power",
+      "sensor.totals_battery_power",
+      "sensor",
+      "W",
+      90
+    ],
+    "load": [
+      "Total load (including EV)",
+      "sensor.totals_load_power",
+      "sensor",
+      "W",
+      90
+    ],
+    "voltage": [
+      "Supply voltage",
+      "sensor.totals_ac_output_voltage",
+      "sensor",
+      "V",
+      300
+    ],
+    "soc": [
+      "Home battery charge",
+      "sensor.totals_battery_state_of_charge",
+      "sensor",
+      "%",
+      7200
+    ],
+    "light": [
+      "Light intensity",
+      "sensor.light_intensity",
+      "sensor",
+      "Klux",
+      600
+    ],
+    "ev": [
+      "Actual EV power",
+      "sensor.ev_charger_phase_a_power",
+      "sensor",
+      "kW",
+      0
+    ],
+    "amps": [
+      "Actual EV current",
+      "sensor.ev_charger_phase_a_current",
+      "sensor",
+      "A",
+      0
+    ],
+    "command": [
+      "Charging current control",
+      "number.ev_charger_charging_current",
+      "number",
+      "A",
+      0
+    ],
+    "switch": [
+      "Charger switch",
+      "switch.ev_charger_switch_2",
+      "switch"
+    ],
+    "work": [
+      "Charger work state",
+      "sensor.ev_charger_work_state",
+      "sensor"
+    ],
+    "mode": [
+      "Charger mode",
+      "select.ev_charger_work_mode",
+      "select"
+    ],
+    "sun": [
+      "Daylight",
+      "sun.sun",
+      "sun"
+    ]
+  }
+}
