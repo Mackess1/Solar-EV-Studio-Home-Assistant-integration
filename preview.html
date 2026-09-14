@@ -1,0 +1,8 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Solar EV integration preview</title><style>body{margin:0;background:#101e20;color:#eaf4f1;font-family:system-ui}aside{padding:10px;text-align:center;background:#30443b;font-size:12px}</style><aside>INTEGRATION PREVIEW · simulated readings and saves</aside><solar-ev-integration-panel></solar-ev-integration-panel><script type="module">
+import './custom_components/solar_ev_studio/frontend/studio.js';
+const schema=await (await fetch('./custom_components/solar_ev_studio/settings.json')).json();
+let runtime={settings:{...schema.defaults},enabled:false,status:'Waiting for daylight',revision:1,learned_factor:20,pending_stops:[]};
+const states={};for(const [k,[label,id,,unit]] of Object.entries(schema.sources))states[id]={state:{pv:'5230',ev:'0',grid:'40',battery:'180',soc:'72',command:'6',amps:'0',switch:'off'}[k]||'0',attributes:{friendly_name:label,unit_of_measurement:unit}};
+const hass={states,user:{is_admin:true},async callWS(m){if(m.type==='solar_ev_studio/enable'){runtime.enabled=m.enabled;runtime.status=m.enabled?'Waiting for solar after activation':'Solar mode off';}if(m.type==='solar_ev_studio/save'){if(m.revision!==runtime.revision)throw Error('Stale settings');runtime={...runtime,settings:m.settings,revision:runtime.revision+1,enabled:false,status:'Settings saved; solar mode paused'};}return structuredClone(runtime);}};
+document.querySelector('solar-ev-integration-panel').hass=hass;
+</script></html>

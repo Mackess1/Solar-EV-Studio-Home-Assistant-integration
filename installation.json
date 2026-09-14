@@ -1,0 +1,32 @@
+{
+  "type": "Home Assistant custom integration",
+  "domain": "solar_ev_studio",
+  "version": "1.0.0",
+  "local_validation": {
+    "decision_scenarios": 41,
+    "actuator_scenarios": 5,
+    "save_transaction_scenarios": 3,
+    "result": "passed",
+    "frontend": "Preview save and enable controls passed"
+  },
+  "deployment": "Initial component files uploaded. Home Assistant connector unavailable after restart; live config entry creation and activation unverified.",
+  "pending_server_updates": [
+    "controller.py",
+    "settings.py",
+    "__init__.py"
+  ],
+  "remaining": [
+    "Reconnect Home Assistant connector",
+    "Upload latest component files",
+    "Restart to load final code if older modules were loaded",
+    "Inspect/create Solar EV Studio config entry",
+    "Read and test live settings API",
+    "Transfer control and verify legacy automation exclusion",
+    "Replace legacy Studio card with navigation to integration panel"
+  ],
+  "last_confirmed_before_restart": {
+    "legacy_solar_enabled": false,
+    "charger_switch": "off"
+  },
+  "notice": "This ZIP contains the final tested local code. It is not a claim that the live installation is complete."
+}
